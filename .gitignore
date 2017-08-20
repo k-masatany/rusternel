@@ -1,2 +1,4 @@
 target/
+build/
+lib/
 **/*.rs.bk
