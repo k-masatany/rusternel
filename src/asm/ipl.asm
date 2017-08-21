@@ -1,8 +1,6 @@
-;;;
 ;;; IPL program (ipl.asm)
 ;;; For x86 Architecture
 ;;; @author k-masatany
-;;;
 
 	ORG 0x7c00
 

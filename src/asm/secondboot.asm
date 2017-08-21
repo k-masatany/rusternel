@@ -1,7 +1,5 @@
-;;;
 ;;; For x86 Architecture
-;;; kotetuco, 2007-2016
-;;;
+;;; @author k-masatany
 
 	org	0xc200
 
