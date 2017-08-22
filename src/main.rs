@@ -6,31 +6,14 @@
 
 mod x86;
 mod crt;
+mod descriptor;
 
 #[no_mangle]
 #[start]
 pub extern fn rusternel_main() {
+    crt::puts("Hello,rusternel!\r\n");
     unsafe {
-        crt::putc(b'H');
-        crt::putc(b'e');
-        crt::putc(b'l');
-        crt::putc(b'l');
-        crt::putc(b'o');
-        crt::putc(b',');
-        crt::putc(b'r');
-        crt::putc(b'u');
-        crt::putc(b's');
-        crt::putc(b't');
-        crt::putc(b'e');
-        crt::putc(b'r');
-        crt::putc(b'n');
-        crt::putc(b'e');
-        crt::putc(b'1');
-        crt::putc(0x08);    // BS
-        crt::putc(b'l');
-        crt::putc(b'!');
-        crt::putc(b'\r');   // CR
-        crt::putc(b'\n');   // LF
+        descriptor::init_gdtidt();
         loop {
             x86::hlt()
         }

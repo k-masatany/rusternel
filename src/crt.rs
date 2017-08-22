@@ -26,32 +26,32 @@ pub unsafe fn get_cursor() -> u16 {
 // 文字表示
 pub unsafe fn putc(c: u8) {
     let pos = get_cursor();
-
-    match c {
-        // BS:一文字戻って表示クリア（Nullを書く）
-        0x08 => {
-            set_cursor(pos-1);
-            let mut vram = 0xb8000 + (get_cursor() * 2) as i32;
-            *(vram as *mut u16) = 0x0f00;
-        },
-        // LF:改行（タスク：スクロール処理の実装）
-        0x0A => set_cursor(pos + CRTC_ROW),
-        // CR:行頭へ
-        0x0D => set_cursor(pos - (pos % CRTC_ROW)),
-        // 通常文字なら通常表示する
-        _ => {
-            let mut vram = 0xb8000 + (pos * 2) as i32;
-            *(vram as *mut u16) = 0x0f00 | (c as u16);
-            set_cursor(pos+1);  // 次の位置へカーソルを移動
-        }
-    }
-
-
+    
+    // match *c {
+    //     // BS:一文字戻って表示クリア（Nullを書く）
+    //     0x08 => {
+    //         set_cursor(pos-1);
+    //         let mut vram = 0xb8000 + (get_cursor() * 2) as i32;
+    //         *(vram as *mut u16) = 0x0f00;
+    //     },
+    //     // LF:改行（タスク：スクロール処理の実装）
+    //     0x0A => set_cursor(pos + CRTC_ROW),
+    //     // CR:行頭へ
+    //     0x0D => set_cursor(pos - (pos % CRTC_ROW)),
+    //     // 通常文字なら通常表示する
+    //     _ => {
+    //         let mut vram = 0xb8000 + (pos * 2) as i32;
+    //         *(vram as *mut u16) = 0x0f00 | (*c as u16);
+    //         set_cursor(pos+1);  // 次の位置へカーソルを移動
+    //     }
+    // }
 }
 
-// // 文字列表示
-// pub fn puts(s: &[u8]) {
-//     for c in s.iter() {
-//         putc(*c);
-//     }
-// }
+// 文字列表示
+pub fn puts(s: &str) {
+    for c in s.as_bytes() {
+        unsafe {
+            //putc(*c);
+        }
+    }
+}
