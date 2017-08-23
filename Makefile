@@ -2,8 +2,11 @@
 
 .PHONY: clean qemu
 
+# lto -> link time optimization: リンク時最適化
+# relocation-model=static -> いろんなアドレスをstaticにするよ
+# no-prepopulate-passes: 
 build/rusternel_main.o : src/main.rs # src/crt.rs src/x86.rs
-	rustc --target=i686-unknown-linux-gnu --crate-type=staticlib --emit=obj,dep-info -C lto -C opt-level=2 -C no-prepopulate-passes -o build/rusternel_main.o src/main.rs
+	rustc --target=i686-unknown-linux-gnu --crate-type=staticlib --emit=obj,dep-info -C lto -C opt-level=2 -C relocation-model=static -C no-prepopulate-passes -o build/rusternel_main.o src/main.rs
 
 build/rusternel.bin : kernel.ld build/rusternel_main.o
 	i686-unknown-linux-gnu-ld -nostdlib -Tdata=0x00310000 build/rusternel_main.o -T kernel.ld -o build/rusternel.bin
