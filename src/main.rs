@@ -4,18 +4,19 @@
 #![no_main]
 #![no_std]
 
-mod x86;
-mod crt;
-mod descriptor;
+pub mod arch;
+pub use arch::*;
+
+pub mod devices;
 
 #[no_mangle]
 #[start]
 pub extern fn rusternel_main() {
-    crt::puts("Hello,rusternel!\r\n");
+    devices::crt::puts("Hello,rusternel!\r\n");
     unsafe {
-        descriptor::init_gdtidt();
+        x86_64::gdt::init_gdtidt();
         loop {
-            x86::hlt()
+            x86_64::device::io::hlt()
         }
     }
 }
@@ -27,7 +28,7 @@ extern fn eh_personality() {}
 extern fn panic_fmt() -> ! {
     unsafe {
         loop {
-            x86::hlt()
+            x86_64::device::io::hlt()
         }
     }
 }

@@ -5,28 +5,28 @@ const CRTC_DATA: u16    = 0x3d5;
 const CRTC_CURSOR_H: u8 = 0x0E;
 const CRTC_CURSOR_L: u8 = 0x0F;
 
-use x86;
+use arch::x86_64::device::io;
 
 // カーソル位置指定
 pub unsafe fn set_cursor(pos: u16) {
-    x86::outb(CRTC_ADDR, CRTC_CURSOR_H);
-    x86::outb(CRTC_DATA, (pos >> 8) as u8);
-    x86::outb(CRTC_ADDR, CRTC_CURSOR_L);
-    x86::outb(CRTC_DATA, pos as u8);
+    io::outb(CRTC_ADDR, CRTC_CURSOR_H);
+    io::outb(CRTC_DATA, (pos >> 8) as u8);
+    io::outb(CRTC_ADDR, CRTC_CURSOR_L);
+    io::outb(CRTC_DATA, pos as u8);
 }
 // カーソル位置取得
 pub unsafe fn get_cursor() -> u16 {
-    x86::outb(CRTC_ADDR, CRTC_CURSOR_H);
-    let ph = x86::inb(CRTC_DATA);
-    x86::outb(CRTC_ADDR, CRTC_CURSOR_L);
-    let pl = x86::inb(CRTC_DATA);
+    io::outb(CRTC_ADDR, CRTC_CURSOR_H);
+    let ph = io::inb(CRTC_DATA);
+    io::outb(CRTC_ADDR, CRTC_CURSOR_L);
+    let pl = io::inb(CRTC_DATA);
     (ph as u16) << 8 | (pl as u16)
 }
 
 // 文字表示
 pub unsafe fn putc(c: u8) {
     let pos = get_cursor();
-    
+
     match c {
         // BS:一文字戻って表示クリア（Nullを書く）
         0x08 => {
