@@ -14,9 +14,9 @@ pub mod devices;
 pub extern fn rusternel_main() {
     devices::crt::puts("Hello,rusternel!\r\n");
     unsafe {
-        x86_64::gdt::init_gdtidt();
+        x86_32::gdt::init_gdtidt();
         loop {
-            x86_64::device::io::hlt()
+            x86_32::device::io::hlt()
         }
     }
 }
@@ -28,7 +28,7 @@ extern fn eh_personality() {}
 extern fn panic_fmt() -> ! {
     unsafe {
         loop {
-            x86_64::device::io::hlt()
+            x86_32::device::io::hlt()
         }
     }
 }

@@ -5,7 +5,7 @@ const CRTC_DATA: u16    = 0x3d5;
 const CRTC_CURSOR_H: u8 = 0x0E;
 const CRTC_CURSOR_L: u8 = 0x0F;
 
-use arch::x86_64::device::io;
+use arch::x86_32::device::io;
 
 // カーソル位置指定
 pub unsafe fn set_cursor(pos: u16) {
